@@ -51,3 +51,35 @@ The behaviour is not observable when remotely debugging Android app - apparently
 Interestingly, first 1000 getters usually work fine. In most cases only the subsequent ones do fail.
 
 See more at [https://github.com/mobxjs/mobx/issues/734]
+
+### Example stacktrace from crash
+
+```
+01-09 10:01:02.264 27214 27256 F libc    : Fatal signal 11 (SIGSEGV), code 1, fault addr 0xbbadbeef in tid 27256 (mqt_js)
+01-09 10:01:02.324  4894  4894 F DEBUG   : *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+01-09 10:01:02.324  4894  4894 F DEBUG   : Build fingerprint: 'samsung/hero2ltexx/hero2lte:6.0.1/MMB29K/G935FXXU1BPLB:user/release-keys'
+01-09 10:01:02.324  4894  4894 F DEBUG   : Revision: '9'
+01-09 10:01:02.324  4894  4894 F DEBUG   : ABI: 'arm'
+01-09 10:01:02.324  4894  4894 F DEBUG   : pid: 27214, tid: 27256, name: mqt_js  >>> com.rncrasher <<<
+01-09 10:01:02.324  4894  4894 F DEBUG   : signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0xbbadbeef
+01-09 10:01:02.374  4894  4894 F DEBUG   :     r0 da2799ac  r1 fffffffe  r2 bbadbeef  r3 00000000
+01-09 10:01:02.374  4894  4894 F DEBUG   :     r4 d7cab390  r5 fffffffb  r6 da279b48  r7 d7cab420
+01-09 10:01:02.374  4894  4894 F DEBUG   :     r8 da279c08  r9 da279a58  sl d9f35000  fp da279ff4
+01-09 10:01:02.374  4894  4894 F DEBUG   :     ip d9865900  sp da279a30  lr eeb28d67  pc eeb28d9c  cpsr 40070030
+01-09 10:01:02.374  4894  4894 F DEBUG   :
+01-09 10:01:02.374  4894  4894 F DEBUG   : backtrace:
+01-09 10:01:02.374  4894  4894 F DEBUG   :     #00 pc 00182d9c  /data/app/com.rncrasher-1/lib/arm/libjsc.so (WTFCrash+19)
+01-09 10:01:02.374  4894  4894 F DEBUG   :     #01 pc 0010770f  /data/app/com.rncrasher-1/lib/arm/libjsc.so
+01-09 10:01:02.374  4894  4894 F DEBUG   :     #02 pc 0010777d  /data/app/com.rncrasher-1/lib/arm/libjsc.so
+01-09 10:01:02.374  4894  4894 F DEBUG   :     #03 pc 0014274f  /data/app/com.rncrasher-1/lib/arm/libjsc.so (_ZNK3JSC12PropertySlot14functionGetterEPNS_9ExecStateE+32)
+01-09 10:01:02.374  4894  4894 F DEBUG   :     #04 pc 000ac18b  /data/app/com.rncrasher-1/lib/arm/libjsc.so
+01-09 10:01:02.384  4894  4894 F DEBUG   :     #05 pc 000ac62b  /data/app/com.rncrasher-1/lib/arm/libjsc.so
+01-09 10:01:02.384  4894  4894 F DEBUG   :     #06 pc 000b0eb3  /data/app/com.rncrasher-1/lib/arm/libjsc.so
+01-09 10:01:02.834  4894  4894 F DEBUG   :
+01-09 10:01:02.834  4894  4894 F DEBUG   : Tombstone written to: /data/tombstones/tombstone_02
+01-09 10:01:02.834  4894  4894 E DEBUG   : AM write failed: Broken pipe
+01-09 10:01:02.834  4894  4894 E         : ro.product_ship = true
+01-09 10:01:02.834  4894  4894 E         : ro.debug_level = 0x4f4c
+01-09 10:01:02.834  4894  4894 E         : sys.mobilecare.preload = false
+01-09 10:01:02.834  7783  7783 E audit   : type=1701 msg=audit(1483952462.834:1883): auid=4294967295 uid=10229 gid=10229 ses=4294967295 subj=u:r:untrusted_app:s0:c512,c768 pid=27256 comm="mqt_js" exe="/system/bin/app_process32" sig=11
+```
